@@ -4,6 +4,8 @@
 # Ignore node_modules in both frontend and backend
 /frontend/node_modules/
 /backend/node_modules/
+/frontend/node_modules/@next/swc-darwin-arm64/next-swc.darwin-arm64.node
+
 
 
 # dependencies
