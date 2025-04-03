@@ -12,7 +12,7 @@ services:
     image: mysql:5.7
     platform: linux/amd64
     environment:
-      MYSQL_ROOT_PASWORD: root
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: bank
     ports:
       #den kommer köra 3307 på min dator men 3306 inuti containern, se till att backend är kopplad till 3307
