@@ -1,4 +1,6 @@
-const BASE_URL = "http://localhost:3000";
+// const BASE_URL = "http://localhost:3000";
+const BASE_URL = "http://nextjs:3000"; // for Next.js API calls
+const LOGOUT_URL = "http://express:3001/logout"; // for Express API calls
 
 export async function loginUser(username, password) {
   const response = await fetch(`${BASE_URL}/login`, {
@@ -49,7 +51,7 @@ export async function depositToAccount(userId, otp, amount) {
 }
 
 export async function logoutUser(userId) {
-  const response = await fetch("http://localhost:3001/logout", {
+  const response = await fetch(LOGOUT_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ userId }),

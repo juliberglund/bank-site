@@ -4,17 +4,17 @@ import cors from "cors";
 import mysql from "mysql2/promise";
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.use(cors());
 app.use(bodyParser.json());
 
 const pool = mysql.createPool({
+  host: "mysql",
   user: "root",
   password: "root",
-  host: "localhost",
   database: "bank",
-  port: 8889,
+  port: 3307, //8889
 });
 
 function generateOTP() {
