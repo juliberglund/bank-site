@@ -29,26 +29,34 @@ export default function Login() {
           <h2 className="text-2xl font-bold text-center text-gray-900">
             Välkommen att logga in
           </h2>
-          <form onSubmit={handleLogin} className="mt-4">
-            <label className="block text-gray-700">Användarnamn</label>
+          <form className="mt-4" onSubmit={handleLogin}>
+            <label htmlFor="username" className="block text-gray-700">
+              Användarnamn
+            </label>
             <input
+              id="username"
+              className="w-full px-4 py-2 border rounded-md text-gray-900"
+              required
               type="text"
-              className="w-full px-4 py-2 border rounded-md text-gray-900"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
+              value={username} // Bind value to the username state
+              onChange={(e) => setUsername(e.target.value)} // Update username state on input change
             />
-            <label className="block text-gray-700 mt-4">Lösenord</label>
+
+            <label htmlFor="password" className="block text-gray-700 mt-4">
+              Lösenord
+            </label>
             <input
-              type="password"
+              id="password"
               className="w-full px-4 py-2 border rounded-md text-gray-900"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               required
+              type="password"
+              value={password} // Bind value to the password state
+              onChange={(e) => setPassword(e.target.value)} // Update password state on input change
             />
+
             <button
-              type="submit"
               className="mt-6 w-full bg-pink-500 text-white py-2 rounded-md hover:bg-pink-300"
+              type="submit"
             >
               Logga in
             </button>
