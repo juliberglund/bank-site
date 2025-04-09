@@ -1,14 +1,12 @@
-import path from "path";
+// next.config.mjs
+export default {
+  reactStrictMode: true,
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
   webpack(config) {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      "@": path.resolve(), // Adjust 'src' to your project's actual directory
-    };
+    config.module.rules.push({
+      test: /\.css$/,
+      use: ["style-loader", "css-loader", "postcss-loader"],
+    });
     return config;
   },
 };
-
-export default nextConfig;
