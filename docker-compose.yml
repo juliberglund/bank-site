@@ -7,7 +7,12 @@ services:
     build: ./backend
     ports:
       - "3001:3001"
-
+  deploy:
+    resources:
+      limits:
+        memory: 4G
+      reservations:
+        memory: 2G
   mysql:
     image: mysql:5.7
     platform: linux/amd64

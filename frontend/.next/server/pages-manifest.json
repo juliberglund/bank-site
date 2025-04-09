@@ -1,7 +1,12 @@
 {
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
-  "/_document": "pages/_document.js",
+  "/account": "pages/account.js",
+  "/components/logout": "pages/components/logout.js",
+  "/components/navbar": "pages/components/navbar.js",
   "/login": "pages/login.js",
-  "/account": "pages/account.js"
+  "/register": "pages/register.js",
+  "/login.test": "pages/login.test.js",
+  "/test": "pages/test.js",
+  "/_document": "pages/_document.js"
 }
