@@ -23,7 +23,7 @@ jobs:
 
       - name: Run Test
         working-directory: ./frontend
-        run: npm run test:ci
+        run: npm run test
         env:
           CI: true
   deployment: # Namn på jobbet

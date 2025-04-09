@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    // "test:ci": "react-scripts test --ci --silent",
+    "test:ci": "jest --ci"
   },
   "dependencies": {
     "next": "15.2.3",
