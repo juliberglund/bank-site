@@ -3,7 +3,10 @@ import Login from "./login";
 import { useRouter } from "next/router";
 import { loginUser } from "@/utils/api";
 
-// Mocka `loginUser`-funktionen och `useRouter` från Next.js
+// Declare mockPush at the top
+let mockPush;
+
+// Mock `loginUser` function and `useRouter` from Next.js
 jest.mock("@/utils/api", () => ({
   loginUser: jest.fn(),
 }));
@@ -30,14 +33,14 @@ afterEach(() => {
 test("renders login form", () => {
   render(<Login />);
 
-  // Verifiera att alla formulärfält och knappar är renderade
+  // Verify that all form fields and buttons are rendered
   expect(screen.getByLabelText(/Användarnamn/i)).toBeInTheDocument();
   expect(screen.getByLabelText(/Lösenord/i)).toBeInTheDocument();
   expect(screen.getByRole("button", { name: /Logga in/i })).toBeInTheDocument();
 });
 
 test("successful login redirects to home page", async () => {
-  // Mocka loginUser så att den returnerar ett användarobjekt
+  // Mock loginUser to return a user object
   loginUser.mockResolvedValue({
     userId: "12345",
     otp: "67890",
@@ -45,7 +48,7 @@ test("successful login redirects to home page", async () => {
 
   render(<Login />);
 
-  // Fyll i formulärfält
+  // Fill in form fields
   fireEvent.change(screen.getByLabelText(/Användarnamn/i), {
     target: { value: "testuser" },
   });
@@ -53,25 +56,25 @@ test("successful login redirects to home page", async () => {
     target: { value: "password" },
   });
 
-  // Skicka formuläret
+  // Submit the form
   fireEvent.click(screen.getByRole("button", { name: /Logga in/i }));
 
-  // Vänta på att router.push ska kallas
+  // Wait for router.push to be called
   await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/"));
 
-  // Kontrollera att rätt data lagras i localStorage
+  // Check that the correct data is stored in localStorage
   expect(localStorage.setItem).toHaveBeenCalledWith("userId", "12345");
   expect(localStorage.setItem).toHaveBeenCalledWith("otp", "67890");
   expect(localStorage.setItem).toHaveBeenCalledWith("username", "testuser");
 });
 
 test("fails to login with invalid credentials", async () => {
-  // Mocka loginUser så att den returnerar null för ogiltiga inloggningsuppgifter
+  // Mock loginUser to return null for invalid login credentials
   loginUser.mockResolvedValue(null);
 
   render(<Login />);
 
-  // Fyll i formulärfält
+  // Fill in form fields
   fireEvent.change(screen.getByLabelText(/Användarnamn/i), {
     target: { value: "wronguser" },
   });
@@ -79,9 +82,9 @@ test("fails to login with invalid credentials", async () => {
     target: { value: "wrongpassword" },
   });
 
-  // Skicka formuläret
+  // Submit the form
   fireEvent.click(screen.getByRole("button", { name: /Logga in/i }));
 
-  // Vänta på att inget skall ske (router.push bör inte anropas)
+  // Wait for nothing to happen (router.push should not be called)
   await waitFor(() => expect(mockPush).not.toHaveBeenCalled());
 });
