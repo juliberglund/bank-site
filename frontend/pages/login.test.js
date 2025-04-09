@@ -60,7 +60,7 @@ test("successful login redirects to home page", async () => {
   fireEvent.click(screen.getByRole("button", { name: /Logga in/i }));
 
   // Wait for router.push to be called
-  await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/"));
+  await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/")); // Ensure mockPush is correctly used
 
   // Check that the correct data is stored in localStorage
   expect(localStorage.setItem).toHaveBeenCalledWith("userId", "12345");
