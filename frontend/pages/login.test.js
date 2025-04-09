@@ -8,7 +8,7 @@ let mockPush;
 
 // Mock `loginUser` function and `useRouter` from Next.js
 jest.mock("@/utils/api", () => ({
-  loginUser: jest.fn(),
+  loginUser: jest.fn(), // Ensure loginUser is a mock function
 }));
 
 jest.mock("next/router", () => ({
