@@ -1,5 +1,6 @@
 module.exports = {
   collectCoverage: true,
+  setupFilesAfterEnv: ["<rootDir>/pages/login.test.js"],
   // on node 14.x coverage provider v8 offers good speed and more or less good report
   coverageProvider: "v8",
   collectCoverageFrom: [
@@ -11,7 +12,6 @@ module.exports = {
     "!<rootDir>/*.config.js",
     "!<rootDir>/coverage/**",
   ],
-  setupFilesAfterEnv: ["<rootDir>/src/setupTests.js"],
   moduleNameMapper: {
     // Handle CSS imports (with CSS modules)
     // https://jestjs.io/docs/webpack#mocking-css-modules
