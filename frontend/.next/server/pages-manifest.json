@@ -1,11 +1,11 @@
 {
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
-  "/components/logout": "pages/components/logout.js",
-  "/account": "pages/account.js",
   "/components/navbar": "pages/components/navbar.js",
-  "/login.test": "pages/login.test.js",
+  "/account": "pages/account.js",
+  "/components/logout": "pages/components/logout.js",
   "/login": "pages/login.js",
+  "/login.test": "pages/login.test.js",
   "/register": "pages/register.js",
   "/test": "pages/test.js",
   "/_document": "pages/_document.js"
