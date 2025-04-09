@@ -1,20 +1,26 @@
-FROM node:alpine
+# Dockerfile
+
+# Use an official Node.js runtime as a parent image
+FROM node:20
+
+# Set the working directory
 WORKDIR /app
 
-#flyttar package.json till ./ -> /app/package.json
-COPY package*json ./ 
-
-#/app/package.json
-#/app/node_modules
+# Copy package.json and install dependencies
+COPY package.json ./
 RUN npm install
 
-#/app/package.json
-#/app/node_modules
-# /app/(hela projektet)
-COPY . .
+# Copy the rest of the application code
+COPY . ./
 
+# Set environment variable to increase memory limit
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
+# Build the application
 RUN npm run build
 
+# Expose the port the app runs on
 EXPOSE 3000
 
-CMD  ["npm", "start"]
+# Start the application
+CMD ["npm", "start"]
