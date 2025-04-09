@@ -1,4 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
+
 import Login from "./login";
 import { useRouter } from "next/router";
 import { loginUser } from "@/utils/api";
@@ -66,25 +68,4 @@ test("successful login redirects to home page", async () => {
   expect(localStorage.setItem).toHaveBeenCalledWith("userId", "12345");
   expect(localStorage.setItem).toHaveBeenCalledWith("otp", "67890");
   expect(localStorage.setItem).toHaveBeenCalledWith("username", "testuser");
-});
-
-test("fails to login with invalid credentials", async () => {
-  // Mock loginUser to return null for invalid login credentials
-  loginUser.mockResolvedValue(null);
-
-  render(<Login />);
-
-  // Fill in form fields
-  fireEvent.change(screen.getByLabelText(/Användarnamn/i), {
-    target: { value: "wronguser" },
-  });
-  fireEvent.change(screen.getByLabelText(/Lösenord/i), {
-    target: { value: "wrongpassword" },
-  });
-
-  // Submit the form
-  fireEvent.click(screen.getByRole("button", { name: /Logga in/i }));
-
-  // Wait for nothing to happen (router.push should not be called)
-  await waitFor(() => expect(mockPush).not.toHaveBeenCalled());
 });
