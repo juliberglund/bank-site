@@ -1,5 +1,7 @@
 module.exports = {
   collectCoverage: true,
+  setupFilesAfterEnv: ["<rootDir>/pages/login.test.js"],
+  // on node 14.x coverage provider v8 offers good speed and more or less good report
   coverageProvider: "v8",
   collectCoverageFrom: [
     "**/*.{js,jsx,ts,tsx}",
@@ -11,21 +13,35 @@ module.exports = {
     "!<rootDir>/coverage/**",
   ],
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/$1", // Aliases for src files
-    "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy", // For CSS Modules
-    "^.+\\.(css|sass|scss)$": "<rootDir>/__mocks__/styleMock.js", // Non-module CSS imports
-    "^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$":
-      "<rootDir>/__mocks__/fileMock.js", // Static assets
-    "^@/components/(.*)$": "<rootDir>/components/$1", // Aliases for components
-    "@next/font/(.*)": "<rootDir>/__mocks__/nextFontMock.js", // Mock next/font imports
-    "next/font/(.*)": "<rootDir>/__mocks__/nextFontMock.js", // Mock next/font imports (alternative)
-    "server-only": "<rootDir>/__mocks__/empty.js", // Mock server-only imports
+    // Handle CSS imports (with CSS modules)
+    // https://jestjs.io/docs/webpack#mocking-css-modules
+    "^@/(.*)$": "<rootDir>/$1",
+    "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
+
+    // Handle CSS imports (without CSS modules)
+    "^.+\\.(css|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
+
+    // Handle image imports
+    // https://jestjs.io/docs/webpack#handling-static-assets
+    "^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$": `<rootDir>/__mocks__/fileMock.js`,
+
+    // Handle module aliases
+    "^@/components/(.*)$": "<rootDir>/components/$1",
+
+    // Handle @next/font
+    "@next/font/(.*)": `<rootDir>/__mocks__/nextFontMock.js`,
+    // Handle next/font
+    "next/font/(.*)": `<rootDir>/__mocks__/nextFontMock.js`,
+    // Disable server-only
+    "server-only": `<rootDir>/__mocks__/empty.js`,
   },
-  // Setup files before each test is run
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"], // Centralized Jest setup file
+  // Add more setup options before each test is run
+  // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
   testEnvironment: "jsdom",
   transform: {
+    // Use babel-jest to transpile tests with the next/babel preset
+    // https://jestjs.io/docs/configuration#transform-objectstring-pathtotransformer--pathtotransformer-object
     "^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
   },
   transformIgnorePatterns: [
