@@ -1,4 +1,33 @@
+name: Deploy to EC2
+on:
+  push:
+    branches:
+      - main
+
 jobs:
+  test:
+    name: Test with React Testing Library
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Dependencies
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Run Test
+        working-directory: ./frontend
+        run: npm run test
+        env:
+          CI: true
+
   deployment:
     name: Deploy
     runs-on: ubuntu-latest
@@ -17,11 +46,6 @@ jobs:
           source: "."
           target: "/home/ubuntu/docker-github-actions"
 
-      - name: Free up disk space
-        run: |
-          docker system prune -f
-          docker volume prune -f
-
       - name: Run Docker on EC2
         uses: appleboy/ssh-action@master
         with:
@@ -31,6 +55,5 @@ jobs:
           port: 22
           script: |
             cd /home/ubuntu/docker-github-actions
-            sudo docker system prune -f
             sudo docker-compose down
             sudo docker-compose up --build -d
