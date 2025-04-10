@@ -1,26 +1,27 @@
-# Dockerfile
-
-# Use an official Node.js runtime as a parent image
+# Use the official Node.js image as a parent image
 FROM node:20
 
-# Set the working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and install dependencies
-COPY package.json ./
-RUN npm install
+# Copy only package.json and package-lock.json (or yarn.lock if you're using yarn)
+# This allows us to install dependencies and cache them efficiently.
+COPY package*.json ./
+
+# Install dependencies using npm ci for a clean and fast install
+RUN npm ci --omit=dev
 
 # Copy the rest of the application code
 COPY . ./
 
-# Set environment variable to increase memory limit
+# Set environment variable to increase memory limit for Node.js (for large apps)
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
-# Build the application
+# Build the application (this will create the .next folder and optimize it)
 RUN npm run build
 
-# Expose the port the app runs on
+# Expose the port your app will run on
 EXPOSE 3000
 
-# Start the application
+# Start the application using npm start
 CMD ["npm", "start"]
